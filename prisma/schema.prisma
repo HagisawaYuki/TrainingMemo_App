@@ -1,0 +1,48 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id            String       @default(cuid()) @id
+  name          String       @unique
+  password      String
+  machines      Machine[]
+  days          Day[]
+}
+
+model Machine {
+  id            Int              @id @default(autoincrement())
+  name          String
+  unit          String
+  value         Int
+  setCount      Int
+  menus         Menu[]
+  user          User   @relation(fields: [userId], references: [id])
+  userId        String
+}
+
+model Day {
+  id            Int         @id @default(autoincrement())
+  date          String // 年月日まとめて保存
+  menus         Menu[]
+  user          User   @relation(fields: [userId], references: [id])
+  userId        String
+}
+
+model Menu {
+  id            Int              @id @default(autoincrement())
+  value         Int
+  setCount      Int
+  machine       Machine @relation(fields: [machineId], references: [id])
+  machineId     Int
+  day           Day   @relation(fields: [dayId], references: [id])
+  dayId         Int
+}
