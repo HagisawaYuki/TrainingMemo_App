@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <Box>
-        <Text>home</Text>
+        <Text>homee</Text>
     </Box>
   );
 }
