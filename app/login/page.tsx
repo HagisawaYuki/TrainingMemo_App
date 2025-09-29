@@ -18,7 +18,7 @@ export default function Home() {
           username: name,
           password,
         });
-        console.log(res)
+        // console.log(res)
 
         if (!res?.ok) {
             alert('ログイン失敗');
